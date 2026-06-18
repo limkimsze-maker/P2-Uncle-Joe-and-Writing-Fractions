@@ -1961,6 +1961,7 @@
           <div class="rFlame"></div>
         </div>
       </div>
+      <button class="coverBtn" id="returnHubBtn" type="button">Return to Rocket Hub</button>
       <button class="coverBtn" id="restartBtn" type="button">Play Again</button>
     </div>
   </div>
@@ -1992,6 +1993,8 @@
 
     const ENDING_VIDEO_SRC = "https://raw.githubusercontent.com/limkimsze-maker/P3-Uncle-Joe-and-Addition-of-Unlike-Fractions/c178a0923dd2ab4c7c9cb061912ecb2775089b84/74915-554074546_medium.mp4"; // Spaceship flying-away ending video
     const ENDING_AUDIO_SRC = "https://raw.githubusercontent.com/limkimsze-maker/P3-Uncle-Joe-and-Addition-of-Unlike-Fractions/c178a0923dd2ab4c7c9cb061912ecb2775089b84/freesound_community-spaceship-flight-94906.mp3"; // Spaceship flight sound for ending video
+    const SPACE_MAX_HUB_URL = "https://limkimsze-maker.github.io/P2-P3-Space-Max-and-the-Lost-Fraction-Rocket-Parts/";
+    const SPACE_MAX_PART_KEY = "space_max_part_p2_writing";
     /*
       Later, if you have a real rocket video, put it here:
       const ENDING_VIDEO_SRC = "https://raw.githubusercontent.com/limkimsze-maker/P3-Uncle-Joe-and-Addition-of-Unlike-Fractions/c178a0923dd2ab4c7c9cb061912ecb2775089b84/74915-554074546_medium.mp4"; // Spaceship flying-away ending video
@@ -2058,6 +2061,7 @@
     const endingVideo = $("endingVideo");
     const endingAudio = $("endingAudio");
     const fakeRocket = $("fakeRocket");
+    const returnHubBtn = $("returnHubBtn");
     const restartBtn = $("restartBtn");
 
     if(helpCard){
@@ -3330,6 +3334,7 @@
         if(endingAudio) endingAudio.volume = muted ? 0 : .9;
         if(muted && "speechSynthesis" in window) speechSynthesis.cancel();
       });
+      if(returnHubBtn) returnHubBtn.addEventListener("click", ()=>{ location.href = SPACE_MAX_HUB_URL; });
       restartBtn.addEventListener("click", ()=>location.reload());
 
       window.addEventListener("message", (event)=>{
@@ -3864,7 +3869,10 @@
     }
 
     async function completeReactor(){
+      if(reactorComplete) return;
       reactorComplete = true;
+      localStorage.setItem(SPACE_MAX_PART_KEY, "collected");
+      localStorage.setItem(SPACE_MAX_PART_KEY + "_completedAt", new Date().toISOString());
       quizIndex = QUESTIONS.length;
       perfectRun = QUESTIONS.length;
       updateReactorPill();
