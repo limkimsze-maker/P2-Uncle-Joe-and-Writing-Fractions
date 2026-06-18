@@ -222,10 +222,16 @@
       box-shadow:0 8px 24px rgba(0,0,0,.38);
       font-size:13px;
       line-height:1.34;
-      pointer-events:none;
+      pointer-events:auto;
+      cursor:pointer;
+      user-select:none;
     }
 
     #helpCard b{color:#fff091}
+    #helpCard .helpTitle{display:inline-block;color:#fff091;font-weight:1000;white-space:nowrap}
+    #helpCard .helpDetails{display:block;margin-top:6px}
+    #helpCard.collapsed{width:auto;padding:10px 14px;border-radius:999px;background:rgba(2,7,28,.72)}
+    #helpCard.collapsed .helpDetails{display:none}
 
     #prompt{
       position:fixed;
@@ -1691,9 +1697,12 @@
     </div>
   </div>
 
-  <div id="helpCard">
-    <b>Move Space Max:</b> WASD, keyboard arrows, or the left on-screen pad. Look around with mouse drag or the right-side buttons.
-    Walk to Bee and the chamber. The door opens upwards when you approach. The rocket, honey machine, chamber walls, and closed doors are solid.
+  <div id="helpCard" class="collapsed" role="button" tabindex="0" aria-expanded="false">
+    <span class="helpTitle">Controls ▾</span>
+    <div class="helpDetails">
+      <b>Move Space Max:</b> WASD, keyboard arrows, or the left on-screen pad. Look around with mouse drag or the right-side buttons.
+      Walk to Bee and the chamber. The door opens upwards when you approach. The rocket, honey machine, chamber walls, and closed doors are solid.
+    </div>
   </div>
 
   <div id="messageBox"></div>
@@ -1811,7 +1820,10 @@
   .question{text-align:center;font-size:clamp(16px,3.2vmin,26px);font-weight:1000;margin:clamp(3px,.8vmin,8px) 0;color:#111827;line-height:1.08;}
   .answerArea{display:flex;justify-content:center;align-items:center;gap:clamp(5px,1.2vmin,10px);flex-wrap:wrap;margin:clamp(3px,.9vmin,7px) 0;min-height:clamp(46px,8.5vmin,70px);}
   .sentence{font-size:clamp(15px,2.9vmin,22px);font-weight:1000}.numBox{width:clamp(58px,11vmin,86px);min-height:clamp(42px,7.7vmin,54px);text-align:center;font-size:clamp(20px,4.4vmin,28px);font-weight:1000;border:3px solid var(--violet);border-radius:14px;background:#faf5ff;}
-  .fracBox{display:grid;grid-template-rows:auto 4px auto;width:clamp(82px,15vmin,112px)}.fracBox input{width:100%;min-height:clamp(38px,7vmin,50px);text-align:center;font-size:clamp(18px,4vmin,26px);font-weight:1000;border:3px solid var(--blue);border-radius:13px;background:#eff6ff}.fracLine{height:4px;border-radius:999px;background:#111827;margin:clamp(4px,.8vmin,6px) 9px}
+  .fracBox{display:grid;grid-template-rows:auto auto auto;width:clamp(82px,15vmin,112px);justify-items:center;row-gap:clamp(4px,.8vmin,7px)}.fracBox input{width:100%;min-height:clamp(38px,7vmin,50px);text-align:center;font-size:clamp(18px,4vmin,26px);font-weight:1000;border:3px solid var(--blue);border-radius:13px;background:#eff6ff}.fracLine{width:100%;height:5px;border-radius:999px;background:#047857}
+  body.fractionEntry .actions{justify-content:center;transform:translateX(clamp(120px,16vw,190px));margin-top:clamp(-56px,-7vmin,-40px);min-height:clamp(46px,8vmin,64px);pointer-events:none}
+  body.fractionEntry .actions button{pointer-events:auto}
+  body.fractionEntry .answerArea{margin-bottom:0}
   .actions{display:flex;justify-content:center;gap:clamp(6px,1.2vmin,10px);flex-wrap:nowrap;margin-top:clamp(3px,.8vmin,8px)}button.big{border:0;border-radius:14px;padding:clamp(8px,1.6vmin,12px) clamp(10px,2.2vmin,18px);font-weight:1000;font-size:clamp(13px,2.3vmin,17px);background:linear-gradient(180deg,#93c5fd,#2563eb);color:white;box-shadow:0 4px 0 #1e40af;cursor:pointer;min-width:clamp(92px,18vmin,132px);}button.secondary{background:#fff;color:#111827;border:2px solid var(--line);box-shadow:0 4px 0 #cbd5e1}button.good{background:linear-gradient(180deg,#86efac,#16a34a);box-shadow:0 4px 0 #15803d;color:#052e16}
   .fractionHint{background:#eef2ff;border:1px solid #c4b5fd;color:#4c1d95;border-radius:14px;padding:clamp(5px,1vmin,8px) clamp(7px,1.4vmin,11px);font-weight:1000;line-height:1.18;font-size:clamp(10px,1.8vmin,14px);text-align:center;margin:0 0 clamp(4px,.8vmin,7px);}
   .feedback{min-height:clamp(22px,4.2vmin,30px);text-align:center;font-size:clamp(13px,2.4vmin,18px);font-weight:1000;margin-top:clamp(3px,.8vmin,8px);line-height:1.15}.feedback.ok{color:var(--good)}.feedback.bad{color:var(--bad)}.feedback.info{color:#7c3aed}.summary{display:none;margin-top:clamp(3px,.8vmin,8px);background:#ecfdf5;border:2px solid #86efac;border-radius:16px;padding:clamp(6px,1.2vmin,10px);text-align:center;font-weight:1000;color:#065f46;font-size:clamp(12px,2.2vmin,16px)}.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:20}.piece{position:absolute;top:-16px;width:10px;height:16px;border-radius:3px;animation:fall 1.45s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.65}}
@@ -1850,7 +1862,8 @@
     .answerArea{min-height:32px;margin:1px 0;}
     .numBox{min-height:30px;font-size:16px;}
     .fracBox input{min-height:28px;font-size:15px;}
-    .fracLine{height:3px;margin:2px 8px;}
+    .fracLine{height:4px;}
+    body.fractionEntry .actions{transform:translateX(clamp(82px,28vw,145px));margin-top:clamp(-48px,-8vmin,-34px)}
     .actions{margin-top:1px;gap:4px;}
     button.big{padding:5px 6px;font-size:11px;border-radius:10px;}
     .feedback{min-height:16px;margin-top:1px;font-size:12px;}
@@ -1912,11 +1925,11 @@
   function equiv(an,ad,bn,bd){ if(!ad||!bd) return false; return an*bd===bn*ad; }
   function setMode(m){mode=m;idx=0;score=0;locked=false;summary.style.display=&#x27;none&#x27;;restartBtn.style.display=&#x27;none&#x27;;nextBtn.style.display=&#x27;none&#x27;;document.querySelectorAll(&#x27;.modeBtn&#x27;).forEach(b=&gt;b.classList.remove(&#x27;active&#x27;));$(m===&#x27;part1&#x27;?&#x27;part1Btn&#x27;:m===&#x27;part2&#x27;?&#x27;part2Btn&#x27;:&#x27;testBtn&#x27;).classList.add(&#x27;active&#x27;);load();}
   function list(){return mode===&#x27;part1&#x27;?part1:mode===&#x27;part2&#x27;?part2:test}
-  function load(){ const arr=list(), q=arr[idx]; locked=false; sentNum.value=sentDen.value=fracNum.value=fracDen.value=&#x27;&#x27;; feedback.textContent=&#x27;&#x27;;feedback.className=&#x27;feedback&#x27;; nextBtn.style.display=&#x27;none&#x27;; restartBtn.style.display=&#x27;none&#x27;; draw(q); qPill.textContent=&#x27;Question &#x27;+(idx+1)+&#x27;/&#x27;+arr.length; scorePill.textContent= mode===&#x27;test&#x27; ? (&#x27;Test score: &#x27;+score+&#x27;/10&#x27;) : (&#x27;Practice: &#x27;+(idx+1)+&#x27;/&#x27;+arr.length); modePill.textContent= mode===&#x27;part1&#x27;?&#x27;Part 1 Practice&#x27;:mode===&#x27;part2&#x27;?&#x27;Part 2 Practice&#x27;:&#x27;Test Mission&#x27;; ruleBox.textContent= mode===&#x27;test&#x27;?&#x27;Test rule: one wrong answer restarts the test. Get 10/10 in one sitting to help Bee get honey and collect the Nose Cone.&#x27;:&#x27;Practice freely. Mistakes are allowed here.&#x27;; const useSentence = mode===&#x27;part1&#x27; || (mode===&#x27;test&#x27; &amp;&amp; q.mode===&#x27;sentence&#x27;); sentenceAnswer.style.display=useSentence?&#x27;flex&#x27;:&#x27;none&#x27;; fracAnswer.style.display=useSentence?&#x27;none&#x27;:&#x27;flex&#x27;; questionText.textContent= useSentence?&#x27;What fraction of this shape is shaded?&#x27;:&#x27;Write the fraction for the shaded part.&#x27;; if(fractionHint){fractionHint.textContent = useSentence ? &#x27;Bee’s hint: Count the shaded parts for the top number. Count all equal parts for the bottom number.&#x27; : &#x27;Max’s hint: Write shaded parts over total equal parts. The parts must be equal-sized parts.&#x27;;} setTimeout(()=&gt; (useSentence?sentNum:fracNum).focus(),50); }
+  function load(){ const arr=list(), q=arr[idx]; locked=false; sentNum.value=sentDen.value=fracNum.value=fracDen.value=&#x27;&#x27;; feedback.textContent=&#x27;&#x27;;feedback.className=&#x27;feedback&#x27;; nextBtn.style.display=&#x27;none&#x27;; restartBtn.style.display=&#x27;none&#x27;; draw(q); qPill.textContent=&#x27;Question &#x27;+(idx+1)+&#x27;/&#x27;+arr.length; scorePill.textContent= mode===&#x27;test&#x27; ? (&#x27;Test score: &#x27;+score+&#x27;/10&#x27;) : (&#x27;Practice: &#x27;+(idx+1)+&#x27;/&#x27;+arr.length); modePill.textContent= mode===&#x27;part1&#x27;?&#x27;Part 1 Practice&#x27;:mode===&#x27;part2&#x27;?&#x27;Part 2 Practice&#x27;:&#x27;Test Mission&#x27;; ruleBox.textContent= mode===&#x27;test&#x27;?&#x27;Test rule: one wrong answer restarts the test. Get 10/10 in one sitting to help Bee get honey and collect the Nose Cone.&#x27;:&#x27;Practice freely. Mistakes are allowed here.&#x27;; const useSentence = mode===&#x27;part1&#x27; || (mode===&#x27;test&#x27; &amp;&amp; q.mode===&#x27;sentence&#x27;); document.body.classList.toggle(&#x27;fractionEntry&#x27;, !useSentence); sentenceAnswer.style.display=useSentence?&#x27;flex&#x27;:&#x27;none&#x27;; fracAnswer.style.display=useSentence?&#x27;none&#x27;:&#x27;flex&#x27;; questionText.textContent= useSentence?&#x27;What fraction of this shape is shaded?&#x27;:&#x27;Write the fraction for the shaded part.&#x27;; if(fractionHint){fractionHint.textContent = useSentence ? &#x27;Bee’s hint: Count the shaded parts for the top number. Count all equal parts for the bottom number.&#x27; : &#x27;Max’s hint: Write shaded parts over total equal parts. The parts must be equal-sized parts.&#x27;;} setTimeout(()=&gt; (useSentence?sentNum:fracNum).focus(),50); }
   function draw(q){ctx.clearRect(0,0,520,310); ctx.lineWidth=3;ctx.strokeStyle=&#x27;#0f172a&#x27;; const colors=[&#x27;#bfdbfe&#x27;,&#x27;#ddd6fe&#x27;,&#x27;#fecdd3&#x27;,&#x27;#bbf7d0&#x27;,&#x27;#fde68a&#x27;]; const fill=colors[(q.d+q.n)%colors.length]; if(q.shape===&#x27;circle&#x27;){let cx=260,cy=150,r=94;for(let i=0;i&lt;q.d;i++){let a0=-Math.PI/2+i*2*Math.PI/q.d,a1=-Math.PI/2+(i+1)*2*Math.PI/q.d;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,a0,a1);ctx.closePath();ctx.fillStyle=i&lt;q.n?fill:&#x27;#fff&#x27;;ctx.fill();ctx.stroke();}ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();}
     else if(q.shape===&#x27;square&#x27;){let side=190,x=165,y=55,w=side/q.d;for(let i=0;i&lt;q.d;i++){ctx.beginPath();ctx.rect(x+i*w,y,w,side);ctx.fillStyle=i&lt;q.n?fill:&#x27;#fff&#x27;;ctx.fill();ctx.stroke();}ctx.strokeRect(x,y,side,side);}
     else if(q.shape===&#x27;poly&#x27;){let cx=260,cy=150,r=98;for(let i=0;i&lt;q.d;i++){let a0=-Math.PI/2+i*2*Math.PI/q.d,a1=-Math.PI/2+(i+1)*2*Math.PI/q.d;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+r*Math.cos(a0),cy+r*Math.sin(a0));ctx.lineTo(cx+r*Math.cos(a1),cy+r*Math.sin(a1));ctx.closePath();ctx.fillStyle=i&lt;q.n?fill:&#x27;#fff&#x27;;ctx.fill();ctx.stroke();}}
-    else{let x=80,y=110,w=360,h=90,pw=w/q.d;for(let i=0;i&lt;q.d;i++){ctx.beginPath();ctx.rect(x+i*pw,y,pw,h);ctx.fillStyle=i&lt;q.n?fill:&#x27;#fff&#x27;;ctx.fill();ctx.stroke();}ctx.strokeRect(x,y,w,h);} ctx.fillStyle=&#x27;#334155&#x27;; ctx.font=&#x27;bold 16px system-ui&#x27;; ctx.textAlign=&#x27;center&#x27;; ctx.fillText(q.n+&#x27; shaded out of &#x27;+q.d+&#x27; equal parts&#x27;,260,285); }
+    else{let x=80,y=110,w=360,h=90,pw=w/q.d;for(let i=0;i&lt;q.d;i++){ctx.beginPath();ctx.rect(x+i*pw,y,pw,h);ctx.fillStyle=i&lt;q.n?fill:&#x27;#fff&#x27;;ctx.fill();ctx.stroke();}ctx.strokeRect(x,y,w,h);} }
   function check(){ if(locked) return; const q=list()[idx]; const useSentence=sentenceAnswer.style.display!==&#x27;none&#x27;; let ok=false; if(useSentence){ const n=parseInt(sentNum.value,10), d=parseInt(sentDen.value,10); ok=(n===q.n &amp;&amp; d===q.d); }else{ const n=parseInt(fracNum.value,10), d=parseInt(fracDen.value,10); ok=equiv(n,d,q.n,q.d); }
     if(ok){ locked=true; feedback.textContent= mode===&#x27;test&#x27;?&#x27;Correct. Numerator = shaded parts; denominator = total equal parts. Keep going!&#x27;:&#x27;Correct! The top number shows shaded parts. The bottom number shows all equal parts.&#x27;; feedback.className=&#x27;feedback ok&#x27;; confetti(); if(mode===&#x27;test&#x27;) score++; scorePill.textContent= mode===&#x27;test&#x27;?(&#x27;Test score: &#x27;+score+&#x27;/10&#x27;):scorePill.textContent; if(mode===&#x27;test&#x27; &amp;&amp; score===10 &amp;&amp; idx===test.length-1){ complete(); } else { nextBtn.style.display=&#x27;inline-block&#x27;; }}
     else{ feedback.textContent= mode===&#x27;test&#x27;?&#x27;Not correct. Test attempt ended. Remember: shaded parts go on top, all equal parts go below. Restart from Question 1.&#x27;:&#x27;Not yet. Count shaded parts for the top number, and all equal parts for the bottom number.&#x27;; feedback.className=&#x27;feedback bad&#x27;; if(mode===&#x27;test&#x27;){ locked=true; restartBtn.style.display=&#x27;inline-block&#x27;; } }
@@ -2007,6 +2020,7 @@
     const prompt = $("prompt");
     const promptText = $("promptText");
     const messageBox = $("messageBox");
+    const helpCard = $("helpCard");
     const dialogueBox = $("dialogueBox");
     const dialogueSpeaker = $("dialogueSpeaker");
     const dialogueText = $("dialogueText");
@@ -2045,6 +2059,23 @@
     const endingAudio = $("endingAudio");
     const fakeRocket = $("fakeRocket");
     const restartBtn = $("restartBtn");
+
+    if(helpCard){
+      const toggleHelpCard = ()=>{
+        const opening = helpCard.classList.contains("collapsed");
+        helpCard.classList.toggle("collapsed", !opening);
+        helpCard.setAttribute("aria-expanded", String(opening));
+        const title = helpCard.querySelector(".helpTitle");
+        if(title) title.textContent = opening ? "Controls ▴" : "Controls ▾";
+      };
+      helpCard.addEventListener("click", toggleHelpCard);
+      helpCard.addEventListener("keydown", (event)=>{
+        if(event.key === "Enter" || event.key === " "){
+          event.preventDefault();
+          toggleHelpCard();
+        }
+      });
+    }
 
     let renderer, scene, camera, clock;
     let player, joeBody, joeLegL, joeLegR, joeArmL, joeArmR, joeHelmet;
